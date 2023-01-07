@@ -1,6 +1,7 @@
 const express = require("express");
 const multer = require("multer");
 const axios = require("axios");
+const fs = require("fs");
 
 const excelToJson = require("./utils");
 
@@ -20,6 +21,8 @@ app.post("/api/v1/upload", upload.single("file"), async (req, res) => {
 
   try {
     const json = await excelToJson(file.path);
+
+    fs.writeFileSync("result.json", json);
 
     // const response = await axios.post(
     //   "https://deusa.com.ng/api/store-students",
