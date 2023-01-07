@@ -1,0 +1,31 @@
+name: Deploy to server
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: self-hosted
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build Docker images
+        run: |
+          docker build . -t excel-to-json:${{ github.sha }}
+
+  run:
+    runs-on: self-hosted
+
+    needs:
+      - build
+
+    steps:
+      - name: remove running container
+        run: |
+          docker rm --force excel-to-json
+      - name: Run Docker images
+        run: |
+          docker run -d -p 1100:3000 --name excel-to-json excel-to-json:${{ github.sha }}
