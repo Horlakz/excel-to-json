@@ -28,23 +28,4 @@ async function excelToJson(inputFile) {
   // fs.writeFileSync(outputFile, JSON.stringify(jsonData, null, 2));
 }
 
-async function main() {
-  // Parse the command line arguments
-  const inputFile = process.argv[2];
-  const outputFile = process.argv[3];
-  const keys = process.argv.slice(4);
-
-  // Validate the arguments
-  if (!inputFile || !outputFile || keys.length === 0) {
-    console.error("Error: Invalid arguments");
-    console.error(
-      "Usage: node excel-to-json.js <input file> <output file> <key1> <key2> ... <keyN>"
-    );
-    process.exit(1);
-  }
-
-  // Convert the Excel file to a JSON file
-  await excelToJson(inputFile, outputFile, keys);
-}
-
 module.exports = excelToJson;

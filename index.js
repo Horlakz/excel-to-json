@@ -1,7 +1,6 @@
 const express = require("express");
 const multer = require("multer");
 const axios = require("axios");
-const fs = require("fs");
 
 const excelToJson = require("./utils");
 
@@ -11,16 +10,16 @@ const storage = multer.diskStorage({
     cb(null, `${Date.now()}_${file.originalname}`);
   },
 });
-
 const upload = multer({ storage });
-
 const app = express();
 
-app.post("/api/v1/upload", upload.single("file"), async (req, res) => {
-  const { file } = req;
+// app.post("/api/v1/upload", upload.single("file"), async (req, res) => {
+app.post("/api/v1/upload", async (req, res) => {
+  // const { file } = req;
+  const { file_path } = req.body;
 
   try {
-    const json = await excelToJson(file.path);
+    const json = await excelToJson(file_path);
 
     const response = await axios.post(
       "https://deusa.com.ng/api/store-students",
