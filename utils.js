@@ -1,7 +1,7 @@
 const fs = require("fs");
 const xlsx = require("xlsx");
 
-async function excelToJson(inputFile, keys) {
+async function excelToJson(inputFile) {
   // Read the input file as a binary string
   const data = fs.readFileSync(inputFile, "binary");
 
@@ -14,16 +14,18 @@ async function excelToJson(inputFile, keys) {
   // Convert the sheet data to a JSON object
   const jsonData = xlsx.utils.sheet_to_json(ws);
 
-  // Generate the result object using the specified keys
-  const result = {};
-  jsonData.forEach((row, index) => {
-    result[keys[index]] = row;
-  });
+  // console.log(jsonData);
 
-  return JSON.stringify(result, null, 2);
+  // Generate the result object using the specified keys
+  // const result = {};
+  // jsonData.forEach((row, index) => {
+  //   result[keys[index]] = row;
+  // });
+
+  return JSON.stringify(jsonData, null, 2);
 
   // // Write the JSON object to the output file
-  // fs.writeFileSync(outputFile, JSON.stringify(result, null, 2));
+  // fs.writeFileSync(outputFile, JSON.stringify(jsonData, null, 2));
 }
 
 async function main() {
