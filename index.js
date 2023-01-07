@@ -13,12 +13,19 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 const app = express();
 
+app.use(express.json());
+
 // app.post("/api/v1/upload", upload.single("file"), async (req, res) => {
 app.post("/api/v1/upload", async (req, res) => {
   // const { file } = req;
   const { file_path } = req.body;
 
   try {
+    if (!file_path) {
+      res.status(400).json({ status: "error" });
+      return;
+    }
+
     const json = await excelToJson(file_path);
 
     const response = await axios.post(
