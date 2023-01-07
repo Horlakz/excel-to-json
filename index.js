@@ -1,6 +1,7 @@
 const express = require("express");
 const multer = require("multer");
 const axios = require("axios");
+const fs = require("fs");
 
 const excelToJson = require("./utils");
 
@@ -15,33 +16,38 @@ const app = express();
 
 app.use(express.json());
 
-// app.post("/api/v1/upload", upload.single("file"), async (req, res) => {
-app.post("/api/v1/upload", async (req, res) => {
-  // const { file } = req;
+app.post("/api/v1/upload", upload.single("file"), async (req, res) => {
+  // app.post("/api/v1/upload", async (req, res) => {
+  const { file } = req;
   const { file_path } = req.body;
 
   try {
-    if (!file_path) {
-      res.status(400).json({ status: "error" });
-      return;
-    }
+    // if (!file_path) {
+    //   res.status(400).json({ status: "error" });
+    //   return;
+    // }
 
-    const json = await excelToJson(file_path);
+    const json = await excelToJson(file.path);
 
-    const response = await axios.post(
-      "https://deusa.com.ng/api/store-students",
-      json,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    // fs.writeFileSync("result.json", json);
+
+    // console.log(json);
+
+    // const response = await axios.post(
+    //   "https://deusa.com.ng/api/store-students",
+    //   json,
+    //   {
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //   }
+    // );
 
     res.status(200).json({
       status: "success",
       message: "File uploaded successfully",
-      data: response.data,
+      // data: response.data,
+      data: json,
     });
   } catch (err) {
     res.status(400).json({
