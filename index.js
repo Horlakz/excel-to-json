@@ -43,7 +43,7 @@ app.post("/api/v1/upload", upload.single("file"), async (req, res) => {
     res.status(200).json({
       status: "success",
       message: "File uploaded successfully",
-      data: response.data,
+      data: json,
     });
   } catch (err) {
     res.status(400).json({
