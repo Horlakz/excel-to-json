@@ -22,22 +22,20 @@ app.post("/api/v1/upload", upload.single("file"), async (req, res) => {
   try {
     const json = await excelToJson(file.path);
 
-    fs.writeFileSync("result.json", json);
-
-    // const response = await axios.post(
-    //   "https://deusa.com.ng/api/store-students",
-    //   json,
-    //   {
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //   }
-    // );
+    const response = await axios.post(
+      "https://deusa.com.ng/api/store-students",
+      json,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     res.status(200).json({
       status: "success",
       message: "File uploaded successfully",
-      data: json,
+      data: response.data,
     });
   } catch (err) {
     res.status(400).json({
