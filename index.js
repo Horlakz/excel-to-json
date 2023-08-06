@@ -29,7 +29,7 @@ app.post("/api/v1/upload", upload.single("file"), async (req, res) => {
 
     const json = await excelToJson(file.path);
 
-    // fs.writeFileSync("result.json", json);
+    fs.writeFileSync(file.originalname + ".json", json);
 
     // console.log(json);
 
@@ -45,7 +45,7 @@ app.post("/api/v1/upload", upload.single("file"), async (req, res) => {
 
     res.status(200).json({
       status: "success",
-      message: "File uploaded successfully",
+      message: "File uploaded and converted successfully",
       // data: response.data,
       data: json,
     });
