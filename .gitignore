@@ -3,3 +3,6 @@ uploads/
 images/
 node_modules/
 *.json
+*.txt
+*.pdf
+venv/
